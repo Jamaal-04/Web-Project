@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-    
+
     <div class="note-container">
         <h2>Add Your Note</h2>
         <textarea id="noteInput" placeholder="Write your note here..."></textarea>
@@ -52,6 +52,36 @@
         <button class="my-notes-button" onclick="window.location.href='mynotes.html'">My Notes</button>
         <!-- Add Clear Button -->
         <button id="clearNotesButton" class="clear-button">Clear All Notes</button>
+    </div>
+
+    <script>
+        // Save the note to LocalStorage
+        document.getElementById("saveNoteButton").addEventListener("click", function() {
+            let noteContent = document.getElementById("noteInput").value;
+            if (noteContent) {
+                // Get the current date and time
+                let timestamp = new Date().toLocaleString(); // e.g., "3/21/2025, 11:30:00 AM"
+                
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                // Save both note content and timestamp
+                notes.push({ note: noteContent, timestamp: timestamp });
+                localStorage.setItem("notes", JSON.stringify(notes));
+                
+                alert("Note saved!");
+                document.getElementById("noteInput").value = ""; // Clear textarea
+            } else {
+                alert("Please write something to save!");
+            }
+        });
+
+        // Clear all notes from LocalStorage
+        document.getElementById("clearNotesButton").addEventListener("click", function() {
+            if (confirm("Are you sure you want to clear all notes?")) {
+                localStorage.removeItem("notes"); // This removes all notes
+                alert("All notes have been cleared.");
+            }
+        });
+    </script>
 
 </body>
 </html>
